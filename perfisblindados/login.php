@@ -23,11 +23,10 @@ if(!empty($_SESSION['login'])) {
             
         </nav>
 
-        <div class="banner">
                 <div class="container">
                     <div class="login description">            
                 
-                        <form action="verifica.login.php" method="POST">
+                    <form action="verifica.login.php" method="POST" id="form">
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="email">E-mail:</label>
@@ -45,10 +44,8 @@ if(!empty($_SESSION['login'])) {
                                     <button class="btn btn-primary p-2" type="submit">Acessar</button>
                                 </div>
                             </div> 
-                            <div class="formAlert">
-                        
-                                                
-                            </div>                           
+                            <div class="formAlert">                        
+                            </div>                          
                             
                         </form>
                         

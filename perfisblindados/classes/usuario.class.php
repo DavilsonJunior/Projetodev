@@ -1,11 +1,16 @@
 <?php
-session_start();
 class Usuario {
     
+    private $pdo;
+
+    public function __construct($pdo) {
+        $this->pdo = $pdo;
+    }
+
     public function login($email, $senha) {
 
         $sql = "SELECT * FROM usuarios WHERE email = :email AND pass = :senha";
-        $sql = $pdo->prepare($sql);
+        $sql = $this->pdo->prepare($sql);
         $sql->bindParam(":email", $email);
         $sql->bindParam(":senha", $senha);
     
@@ -17,4 +22,17 @@ class Usuario {
             return true;
         } 
     }
+
+    public function getUsuario($p, $por_pagina, $filtro) {
+       
+        $sql = "SELECT * FROM usuarios ORDER BY name ASC LIMIT $p, $por_pagina";
+        $sql = $this->pdo->query($sql);
+
+        if($sql->rowCount() > 0) {
+            $usuario = $sql->fetchAll();
+            return $usuario;
+        }
+    }
+
+    
 }

@@ -25,9 +25,11 @@ if(empty($_SESSION['login'])) {
                 </div>
             </div>
         </div>
-        
-    </div>
+    </div>  
+   
 
 <?php
 require 'pages/footer.php';
+?>
+ 
 

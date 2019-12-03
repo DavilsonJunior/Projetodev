@@ -1,17 +1,6 @@
-$(document).ready(function () {      
-
-     //altera css do menu nav quando a pagina der um scroll maior do que 50
-     $(window).scroll(function () {
-        if ($(this).scrollTop() > 50) {
-         $("#menu").addClass("menu-diferente");
-         $("nav ul li a").addClass("nav-color");
-        } else {
-         $("#menu").removeClass("menu-diferente");
-         $("nav ul li a").removeClass("nav-color");
-        }
-      });
-
-    //Faço uma requisição Ajax de todo fórmulario
+$(document).ready(function () {       
+     
+    //Faz uma requisição Ajax de todo fórmulario de login
     $('#form').on('submit', function(e) {
         e.preventDefault();
         var email = $('input[name=email]').val();
@@ -27,9 +16,10 @@ $(document).ready(function () {
                 } else {
                     $('.formAlert').html(data);
                 }
+               
                 
             }            
         });
     });
-    
+        
 });
