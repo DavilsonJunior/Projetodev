@@ -15,11 +15,32 @@ $(document).ready(function () {
                     window.location.href = 'index.php';                    
                 } else {
                     $('.formAlert').html(data);
+                    
                 }
                
                 
             }            
         });
     });
+
+    //Faz uma requisição Ajax de da busca por email ou nome
+    
+       
+       /* var busca = $('input[name=busca]').val();
+
+        $('input[name=busca]').on('keyup', function() {
+            var busca = $(this).val();
+
+            $.ajax({
+                type: 'POST',
+                url: 'busca.php',
+                data: {busca:busca},
+                success: function(data) {                              
+                    $('.testei').html(data)
+                }            
+            });
+        });*/
+        
+    
         
 });

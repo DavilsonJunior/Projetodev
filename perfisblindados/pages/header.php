@@ -27,7 +27,7 @@
                         </li>
 
                         <li class="nav-item" id="nav-item">
-                            <a class="nav-link" href="#">Funcionários</a>
+                            <a class="nav-link" href="funcionarios.php">Funcionários</a>
                         </li>
 
                         <li class="nav-item" id="nav-item">
