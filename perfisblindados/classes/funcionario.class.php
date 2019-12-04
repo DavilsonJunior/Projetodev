@@ -7,6 +7,27 @@ class Funcionario {
         $this->pdo = $pdo;
     }    
 
+    public function getTotalFuncionarios($busca) {
+        $busca = "%{$busca}%";
+        $sql = "SELECT COUNT(*) as c FROM funcio";
+        if($busca !== '') {
+            $sql .= " WHERE (name OR email LIKE :busca)"; 
+        }
+        
+        $sql = $this->pdo->prepare($sql);
+
+        if($busca !== '') {            
+            $sql->bindParam(":busca", $busca);           
+        } 
+
+        $sql->execute();    
+        
+        if($sql->rowCount() > 0) {
+            $dado = $sql->fetch();            
+            return $dado['c'];
+        } 
+    }
+
     public function getFuncionario($p, $por_pagina, $busca) {
         $busca = "%{$busca}%";
         $sql = "SELECT * FROM funcio"; 
@@ -14,9 +35,6 @@ class Funcionario {
             $sql .= " WHERE (name OR email LIKE :busca)"; 
         }
         $sql .= " ORDER BY name ASC LIMIT $p, $por_pagina";
-        //$sql = "SELECT * FROM usuarios WHERE name LIKE :busca ORDER BY name ASC LIMIT $p, $por_pagina";
-        //$sql = "SELECT * FROM usuarios ORDER BY name ASC LIMIT $p, $por_pagina";
-        //$sql = $this->pdo->query($sql);
         
         if($busca !== '') {
             $sql = $this->pdo->prepare($sql);

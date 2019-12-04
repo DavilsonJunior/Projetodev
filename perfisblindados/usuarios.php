@@ -16,19 +16,25 @@ if(isset($_GET['p']) && !empty($_GET['p'])) {
     $pg = addslashes($_GET['p']);
 }
 $p = ($pg - 1) * $por_pagina; 
-
+if(!isset($_SESSION['busca']) && empty($_SESSION['busca'])) {
+    $_SESSION['busca'] = '';
+}
 if(isset($_POST['busca']) && !empty($_POST['busca'])) {    
     $busca = $_POST['busca'];  
     $_SESSION['busca'] = $busca;
     
 } 
+if(!isset($_POST['busca']) && empty($_POST['busca'])) {
+    $busca = $_SESSION['busca'];
+} 
+if(isset($_POST['busca']) && empty($_POST['busca'])) {
+    $_SESSION['busca'] = '';
+}
+
 $usuarios = new Usuario($pdo);
-$conta = $usuarios->getTotalUsuarios($busca);
-$total = $conta;
+$total = $usuarios->getTotalUsuarios($busca);
 
 $paginas = ceil($total / $por_pagina);
-
-
 ?>
 
 <div class="container">

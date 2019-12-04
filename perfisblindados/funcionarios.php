@@ -9,25 +9,30 @@ require 'classes/funcionario.class.php';
 
 $indices = array('Nome', 'E-mail', 'Perfis', 'Informação'); 
 $total = 0;
-$sql = "SELECT COUNT(*) as c FROM funcio";
-$sql = $pdo->query($sql);
-$sql = $sql->fetch();
-$total = $sql['c'];
+$busca = '';
 $por_pagina = 10;
-$paginas = ceil($total / $por_pagina);
-
-$p = 0;
 $pg = 1;
 if(isset($_GET['p']) && !empty($_GET['p'])) {
     $pg = addslashes($_GET['p']);
 }
 $p = ($pg - 1) * $por_pagina; 
-$busca = '';
-if(isset($_POST['busca']) && !empty($_POST['busca'])) {
+if(!isset($_SESSION['busca']) && empty($_SESSION['busca'])) {
+    $_SESSION['busca'] = '';
+}
+if(isset($_POST['busca']) && !empty($_POST['busca'])) {    
+    $busca = $_POST['busca'];  
+    $_SESSION['busca'] = $busca;
+    
+} else if(!isset($_POST['busca']) && empty($_POST['busca'])) {
+    $busca = $_SESSION['busca'];
+} else if(isset($_POST['busca']) && empty($_POST['busca'])) {
+    $_SESSION['busca'] = '';
+}
 
-    $busca = $_POST['busca'];
-       
-} 
+$funcionarios = new Funcionario($pdo);
+$total = $funcionarios->getTotalFuncionarios($busca);
+
+$paginas = ceil($total / $por_pagina);
 
 ?>
 
@@ -37,13 +42,13 @@ if(isset($_POST['busca']) && !empty($_POST['busca'])) {
                 
         <form class="mb-4" action="funcionarios.php" method="POST" id="buscar">
             <div class="form-row">
-                <input type="text" class="col-3 form-control mr-3" name="busca" placeholder="Buscar" id="busca" value="<?php echo $busca; ?>">                   <button class="btn btn-primary" type="submit">Buscar</button>       
+                <input type="text" class="col-8 col-sm-6 col-md-4 col-lg-4 form-control mr-3" name="busca" placeholder="Todos" id="busca" value="<?php echo $busca; ?>">                   
+                <button class="btn btn-primary" type="submit">Buscar</button>       
             </div> 
                                                  
         </form>
 
         <?php
-         $funcionarios = new Funcionario($pdo);
          $dados = $funcionarios->getFuncionario($p, $por_pagina, $busca);
          if($dados !== null) { ?>                        
         <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive">
