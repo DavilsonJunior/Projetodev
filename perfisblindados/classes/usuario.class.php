@@ -7,6 +7,20 @@ class Usuario {
         $this->pdo = $pdo;
     }
 
+    public function addUsuario($pessoa, $nome, $email, $senha) {
+        $sql = "INSERT INTO ".$pessoa." SET name = :nome, email = :email, pass = :senha";
+        $sql = $this->pdo->prepare($sql);
+        $sql->bindParam(":nome", $nome);
+        $sql->bindParam(":email", $email);
+        $sql->bindParam(":senha", $senha);
+        $sql->execute();
+
+        if($sql === true) {
+            return true;
+        } 
+    }
+
+
     public function login($email, $senha) {
 
         $sql = "SELECT * FROM usuarios WHERE email = :email AND pass = :senha";
@@ -45,7 +59,8 @@ class Usuario {
     }
 
 
-    public function getUsuario($p, $por_pagina, $busca) {
+    public function getUsuarios($p, $por_pagina, $busca) {
+        $p = ($p - 1) * $por_pagina;
         $busca = "%{$busca}%";
         $sql = "SELECT * FROM usuarios"; 
         if($busca !== '') {

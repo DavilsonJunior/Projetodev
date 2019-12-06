@@ -7,6 +7,7 @@
         <link rel="stylesheet" href="assets/css/style.css"> 
         <link href="https://fonts.googleapis.com/css?family=Varela+Round&display=swap" rel="stylesheet"> 
         <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+        
     </head>
     <body> 
                       
@@ -35,7 +36,7 @@
                         </li>
 
                         <li class="nav-item" id="nav-item">
-                            <a class="nav-link" href="#">Vendas</a>
+                            <a class="nav-link" href="vendas.php">Vendas</a>
                         </li>
 
                         <li class="nav-item" id="nav-item">

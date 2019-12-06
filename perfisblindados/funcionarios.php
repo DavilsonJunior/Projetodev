@@ -1,5 +1,7 @@
 <?php 
 session_start();
+unset($_SESSION['usuario']);
+unset($_SESSION['venda']);
 if(empty($_SESSION['login'])) {
     header("Location: login.php");
 }
@@ -11,22 +13,24 @@ $indices = array('Nome', 'E-mail', 'Perfis', 'Informação');
 $total = 0;
 $busca = '';
 $por_pagina = 10;
-$pg = 1;
+$p = 1;
 if(isset($_GET['p']) && !empty($_GET['p'])) {
-    $pg = addslashes($_GET['p']);
+    $p = addslashes($_GET['p']);
 }
-$p = ($pg - 1) * $por_pagina; 
-if(!isset($_SESSION['busca']) && empty($_SESSION['busca'])) {
-    $_SESSION['busca'] = '';
+ 
+if(!isset($_SESSION['funcio']) && empty($_SESSION['funcio'])) {
+    $_SESSION['funcio'] = '';
 }
-if(isset($_POST['busca']) && !empty($_POST['busca'])) {    
+else if(isset($_POST['busca']) && !empty($_POST['busca'])) {    
     $busca = $_POST['busca'];  
-    $_SESSION['busca'] = $busca;
+    $_SESSION['funcio'] = $busca;
     
-} else if(!isset($_POST['busca']) && empty($_POST['busca'])) {
-    $busca = $_SESSION['busca'];
-} else if(isset($_POST['busca']) && empty($_POST['busca'])) {
-    $_SESSION['busca'] = '';
+}
+else if(!isset($_POST['busca']) && empty($_POST['busca'])) {
+    $busca = $_SESSION['funcio'];
+}
+else if(isset($_POST['busca']) && empty($_POST['busca'])) {
+    $_SESSION['funcio'] = '';
 }
 
 $funcionarios = new Funcionario($pdo);
@@ -37,7 +41,7 @@ $paginas = ceil($total / $por_pagina);
 ?>
 
 <div class="container">
-    <div class="descriptionx"> 
+    <div class="description"> 
         <h1 class="my-4">Funcionários</h1>                           
                 
         <form class="mb-4" action="funcionarios.php" method="POST" id="buscar">
@@ -48,8 +52,10 @@ $paginas = ceil($total / $por_pagina);
                                                  
         </form>
 
+        <button class="btn btn-success mb-3" type="submit"><a href="pessoa.php?page=funcionario">Adicionar Funcionário</a></button>
+
         <?php
-         $dados = $funcionarios->getFuncionario($p, $por_pagina, $busca);
+         $dados = $funcionarios->getFuncionarios($p, $por_pagina, $busca);
          if($dados !== null) { ?>                        
         <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive">
             <table class="table table-striped table-hover table-sm">
@@ -66,7 +72,7 @@ $paginas = ceil($total / $por_pagina);
                 <?php                    
                     foreach($dados as $dado): ?>
                     <tr>
-                        <td><?php echo $dado['name'] ?></td>
+                        <td><?php echo utf8_encode($dado['name']) ?></td>
                         <td><?php echo $dado['email'] ?></td>
                         <td><?php echo $por_pagina; ?></td>
                         <td>
@@ -82,10 +88,10 @@ $paginas = ceil($total / $por_pagina);
             </table>
             <ul class="pagination justify-content-center">
             <?php
-            $p = 1;
+            /*$p = 1;
             if(isset($_GET['p']) && !empty($_GET['p'])) {
                 $p = $_GET['p'];
-            }
+            }*/
             
              for($q = 1; $q <= $paginas; $q++) { ?>
                 <li class="page-item <?php echo ($p==$q)?'active':'' ?> "><a class="page-link" href="./funcionarios.php?<?php

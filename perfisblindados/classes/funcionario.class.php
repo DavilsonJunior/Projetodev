@@ -7,6 +7,19 @@ class Funcionario {
         $this->pdo = $pdo;
     }    
 
+    public function addFuncionario($pessoa, $nome, $email, $senha) {
+        $sql = "INSERT INTO ".$pessoa." SET name = :nome, email = :email, pass = :senha";
+        $sql = $this->pdo->prepare($sql);
+        $sql->bindParam(":nome", $nome);
+        $sql->bindParam(":email", $email);
+        $sql->bindParam(":senha", $senha);
+        $sql->execute();
+
+        if($sql === true) {
+            return true;
+        } 
+    }
+
     public function getTotalFuncionarios($busca) {
         $busca = "%{$busca}%";
         $sql = "SELECT COUNT(*) as c FROM funcio";
@@ -28,7 +41,8 @@ class Funcionario {
         } 
     }
 
-    public function getFuncionario($p, $por_pagina, $busca) {
+    public function getFuncionarios($p, $por_pagina, $busca) {
+        $p = ($p - 1) * $por_pagina;
         $busca = "%{$busca}%";
         $sql = "SELECT * FROM funcio"; 
         if($busca !== '') {

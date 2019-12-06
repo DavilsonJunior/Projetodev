@@ -25,8 +25,7 @@ if(empty($_SESSION['login'])) {
                             <button class="btn btn-primary p-2" type="submit">Limpar</button>
                             <button class="btn btn-primary p-2" type="submit">Adicionar no Sistema</button>
                         </div>
-                    </div>                
-                    
+                    </div>                    
 
                 </form>
             </div>
